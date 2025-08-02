@@ -57,3 +57,7 @@ ColchonesTapiSuave es una plataforma web completa para la venta de colchones que
    ```bash
    git clone <url-del-repositorio>
    cd tapi_suave
+   3. **Instala las dependencias:**
+   ```bash
+   pip install -r requirements.txt
+   ```
