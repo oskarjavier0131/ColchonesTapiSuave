@@ -1,20 +1,21 @@
 <script>
 // Variables globales
-let searchTimeout;
+// let searchTimeout;  // <- ELIMINAR ESTA LÍNEA
 let comparisonList = JSON.parse(localStorage.getItem('comparisonList') || '[]');
 
 // Inicialización cuando se carga el DOM
 document.addEventListener('DOMContentLoaded', function() {
-    initializeSearch();
+    // initializeSearch();  // <- ELIMINAR ESTA LÍNEA
     initializeComparison();
     initializeAnimations();
     initializeProductInteractions();
 });
 
 // =============================================================================
-// SISTEMA DE BÚSQUEDA
+// SISTEMA DE BÚSQUEDA  // <- ELIMINAR TODO ESTE BLOQUE
 // =============================================================================
 
+/*
 function initializeSearch() {
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
@@ -50,7 +51,7 @@ function performSearch(query) {
             displaySearchResults(data.results);
         })
         .catch(error => {
-            console.error('Error en la búsqueda:', error);
+            console.error('Error en búsqueda:', error);
         });
 }
 
@@ -62,10 +63,10 @@ function displaySearchResults(results) {
     } else {
         searchResults.innerHTML = results.map(product => `
             <a href="${product.url}" class="search-result-item">
-                <img src="${product.imagen}" alt="${product.nombre}" class="search-result-image">
+                <img src="${product.image}" alt="${product.name}" class="search-result-image">
                 <div class="search-result-info">
-                    <div class="search-result-name">${product.nombre}</div>
-                    <div class="search-result-price">$${product.precio}</div>
+                    <div class="search-result-name">${product.name}</div>
+                    <div class="search-result-price">${formatPrice(product.price)}</div>
                 </div>
             </a>
         `).join('');
@@ -80,6 +81,7 @@ function hideSearchResults() {
         searchResults.style.display = 'none';
     }
 }
+*/
 
 // =============================================================================
 // SISTEMA DE COMPARACIÓN
@@ -502,8 +504,8 @@ img.lazy {
         right: 15px;
     }
     
-    .search-container {
+    /* .search-container {  // <- ELIMINAR ESTAS LÍNEAS
         width: 100%;
-    }
+    } */
 }
 </style>

@@ -15,19 +15,17 @@
         
         <div class="col-lg-9">
             <div class="products-grid">
-                <div class="row">
+                <div class="row g-4">
                     {% for producto in page_obj %}
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="product-card" data-product-id="{{ producto.id }}">
+                    <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                        <div class="product-card h-100" data-product-id="{{ producto.id }}">
                             <div class="product-image">
-                                <!-- ⭐ IMAGEN OPTIMIZADA CON WEBP + LAZY LOADING -->
                                 {% responsive_product_image producto size='card' alt=producto.nombre css_class='product-img' %}
                                 
                                 {% if producto.get_descuento_porcentaje %}
                                 <div class="product-badge">-{{ producto.get_descuento_porcentaje }}%</div>
                                 {% endif %}
                                 
-                                <!-- Indicador de carga -->
                                 <div class="image-loader">
                                     <div class="spinner-border text-primary" role="status">
                                         <span class="visually-hidden">Cargando...</span>
@@ -37,9 +35,9 @@
                             
                             <div class="product-info">
                                 <h5 class="product-title">{{ producto.nombre }}</h5>
-                                <p class="text-muted small">{{ producto.descripcion_corta|truncatechars:60 }}</p>
+                                <p class="text-muted small mb-3">{{ producto.descripcion_corta|truncatechars:60 }}</p>
                                 
-                                <div class="product-specs mb-2">
+                                <div class="product-specs mb-3">
                                     <small class="text-muted">
                                         <i class="fas fa-expand-arrows-alt me-1"></i>{{ producto.get_tamano_display }}
                                         <span class="mx-2">•</span>
@@ -54,7 +52,7 @@
                                     {{ producto.get_precio_final|formato_peso_colombiano }}
                                 </div>
                                 
-                                <div class="product-actions">
+                                <div class="product-actions mt-auto">
                                     <a href="{{ producto.get_absolute_url }}" class="btn btn-outline-primary w-100 mb-2">
                                         <i class="fas fa-eye me-2"></i>Ver Detalles
                                     </a>
