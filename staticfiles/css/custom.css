@@ -1,0 +1,70 @@
+/* Estilos adicionales personalizados */
+.product-gallery .main-image img {
+    max-height: 500px;
+    object-fit: cover;
+}
+
+.video-background {
+    position: relative;
+    overflow: hidden;
+}
+
+.video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+/* Animaciones personalizadas */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-left {
+    animation: slideInLeft 0.6s ease;
+}
+
+.animate-slide-right {
+    animation: slideInRight 0.6s ease;
+}
+
+/* Estilos para ícono de teléfono */
+.fas.fa-phone {
+    color: black !important;
+    animation: phoneVibration 1.5s infinite;
+}
+
+/* Animación de vibración para teléfono */
+@keyframes phoneVibration {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-2px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(2px);
+    }
+}

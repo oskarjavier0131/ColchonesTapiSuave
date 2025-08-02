@@ -1,0 +1,386 @@
+{% extends 'base.html' %}
+{% load image_tags %}
+
+{% block title %}{{ producto.nombre }} - ColchonesTapiSuave{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-6">
+            <!-- ⭐ GALERÍA DE IMÁGENES OPTIMIZADA -->
+            <div class="product-gallery">
+                <div class="main-image-container mb-3">
+                    {% responsive_product_image producto size='zoom' alt=producto.nombre css_class='main-product-image' lazy=False %}
+                    
+                    <!-- Zoom overlay -->
+                    <div class="zoom-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <span>Click para ampliar</span>
+                    </div>
+                </div>
+                
+                <!-- Thumbnails -->
+                <div class="thumbnail-gallery">
+                    <div class="row g-2">
+                        {% with images=producto|product_gallery %}
+                        {% for image in images %}
+                        <div class="col-3">
+                            <div class="thumbnail-container">
+                                <picture class="thumbnail {% if forloop.first %}active{% endif %}" 
+                                         onclick="changeMainImage(this)" 
+                                         data-zoom="{{ image.zoom_webp }}"
+                                         data-detail="{{ image.detail_webp }}">
+                                    <source srcset="{{ image.thumb_webp }}" type="image/webp">
+                                    <img src="{{ image.thumb_jpg }}" 
+                                         alt="Vista {{ forloop.counter }} de {{ producto.nombre }}"
+                                         class="img-fluid rounded">
+                                </picture>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <!-- Información del producto -->
+            <div class="product-details">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'productos_lista' %}">Productos</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'productos_lista' %}?categoria={{ producto.categoria.slug }}">{{ producto.categoria.nombre }}</a></li>
+                        <li class="breadcrumb-item active">{{ producto.nombre }}</li>
+                    </ol>
+                </nav>
+                
+                <h1 class="product-title mb-3">{{ producto.nombre }}</h1>
+                <p class="lead text-muted mb-4">{{ producto.descripcion_corta }}</p>
+                
+                <!-- Precio -->
+                <div class="price-section mb-4">
+                    {% if producto.precio_descuento %}
+                    <div class="price-comparison">
+                        <span class="original-price text-muted text-decoration-line-through me-3">
+                            ${{ producto.precio|floatformat:0 }}
+                        </span>
+                        <span class="current-price h2 text-primary fw-bold">
+                            ${{ producto.get_precio_final|floatformat:0 }}
+                        </span>
+                        <span class="discount-badge badge bg-success ms-2">
+                            {{ producto.get_descuento_porcentaje }}% OFF
+                        </span>
+                    </div>
+                    <small class="text-success">
+                        <i class="fas fa-tags me-1"></i>
+                        Ahorras ${{ producto.precio|sub:producto.precio_descuento|floatformat:0 }}
+                    </small>
+                    {% else %}
+                    <span class="current-price h2 text-primary fw-bold">
+                        ${{ producto.precio|floatformat:0 }}
+                    </span>
+                    {% endif %}
+                </div>
+                
+                <!-- Especificaciones -->
+                <div class="product-specs mb-4">
+                    <h5 class="mb-3">Especificaciones</h5>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="spec-item">
+                                <i class="fas fa-expand-arrows-alt text-primary me-2"></i>
+                                <strong>Tamaño:</strong><br>
+                                <span class="text-muted">{{ producto.get_tamano_display }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="spec-item">
+                                <i class="fas fa-hand-paper text-primary me-2"></i>
+                                <strong>Firmeza:</strong><br>
+                                <span class="text-muted">{{ producto.get_firmeza_display }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="spec-item">
+                                <i class="fas fa-arrows-alt-v text-primary me-2"></i>
+                                <strong>Altura:</strong><br>
+                                <span class="text-muted">{{ producto.altura }} cm</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="spec-item">
+                                <i class="fas fa-shield-alt text-primary me-2"></i>
+                                <strong>Garantía:</strong><br>
+                                <span class="text-muted">{{ producto.garantia_anos }} años</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stock y disponibilidad -->
+                <div class="availability-section mb-4">
+                    {% if producto.stock > 0 %}
+                    <div class="stock-available">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        <strong class="text-success">Disponible</strong>
+                        <span class="text-muted">({{ producto.stock }} unidades)</span>
+                    </div>
+                    {% else %}
+                    <div class="stock-unavailable">
+                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                        <strong class="text-warning">Temporalmente agotado</strong>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Botones de acción -->
+                <div class="action-buttons mb-4">
+                    {% if producto.stock > 0 %}
+                    <a href="https://wa.me/573118908980?text=Hola%2C%20estoy%20interesado%20en%20el%20colchón%20{{ producto.nombre|urlencode }}%20de%20tamaño%20{{ producto.get_tamano_display|urlencode }}" 
+                       class="btn btn-primary btn-lg w-100 mb-3" target="_blank">
+                        <i class="fab fa-whatsapp me-2"></i>
+                        Comprar por WhatsApp
+                    </a>
+                    {% else %}
+                    <button class="btn btn-outline-primary btn-lg w-100 mb-3" disabled>
+                        <i class="fas fa-clock me-2"></i>
+                        Notificarme cuando esté disponible
+                    </button>
+                    {% endif %}
+                    
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <button class="btn btn-outline-secondary w-100 favorite-btn">
+                                <i class="far fa-heart me-2"></i>Favoritos
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-outline-info w-100 share-btn">
+                                <i class="fas fa-share me-2"></i>Compartir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Garantías y beneficios -->
+                <div class="benefits-section">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="benefit-item">
+                                <i class="fas fa-shipping-fast text-primary me-3"></i>
+                                <div>
+                                    <strong>Envío Incluido</strong><br>
+                                    <small class="text-muted">A toda Colombia</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="benefit-item">
+                                <i class="fas fa-bed text-primary me-3"></i>
+                                <div>
+                                    <strong>30 Noches de Prueba</strong><br>
+                                    <small class="text-muted">Satisfacción garantizada</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="benefit-item">
+                                <i class="fas fa-headset text-primary me-3"></i>
+                                <div>
+                                    <strong>Soporte 24/7</strong><br>
+                                    <small class="text-muted">Atención personalizada</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Descripción detallada -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="product-description">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-description-tab" data-bs-toggle="tab" data-bs-target="#nav-description" type="button" role="tab">
+                            Descripción
+                        </button>
+                        <button class="nav-link" id="nav-specs-tab" data-bs-toggle="tab" data-bs-target="#nav-specs" type="button" role="tab">
+                            Especificaciones
+                        </button>
+                        <button class="nav-link" id="nav-reviews-tab" data-bs-toggle="tab" data-bs-target="#nav-reviews" type="button" role="tab">
+                            Reseñas
+                        </button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-description" role="tabpanel">
+                        <div class="p-4">
+                            {{ producto.descripcion|safe }}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-specs" role="tabpanel">
+                        <div class="p-4">
+                            <div class="specifications-table">
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Marca</strong></td>
+                                            <td>{{ producto.marca.nombre }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Categoría</strong></td>
+                                            <td>{{ producto.categoria.nombre }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Material Principal</strong></td>
+                                            <td>{{ producto.material_principal }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Peso</strong></td>
+                                            <td>{{ producto.peso }} kg</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Garantía</strong></td>
+                                            <td>{{ producto.garantia_anos }} años</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
+                        <div class="p-4">
+                            {% if testimonios_producto %}
+                            <div class="reviews-section">
+                                {% for testimonio in testimonios_producto %}
+                                <div class="review-item mb-4 pb-4 border-bottom">
+                                    <div class="review-header mb-2">
+                                        <div class="review-rating">
+                                            {% for i in "12345"|make_list %}
+                                                {% if forloop.counter <= testimonio.calificacion %}
+                                                    <i class="fas fa-star text-warning"></i>
+                                                {% else %}
+                                                    <i class="far fa-star text-muted"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <strong>{{ testimonio.nombre }}</strong>
+                                        <span class="text-muted">- {{ testimonio.ciudad }}</span>
+                                        <small class="text-muted ms-2">{{ testimonio.fecha|date:"d/m/Y" }}</small>
+                                    </div>
+                                    <p class="review-text">{{ testimonio.comentario }}</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="text-center py-4">
+                                <i class="fas fa-comments" style="font-size: 3rem; color: var(--border-color);"></i>
+                                <h5 class="mt-3 text-muted">Aún no hay reseñas</h5>
+                                <p class="text-muted">Sé el primero en compartir tu experiencia</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de zoom para imágenes -->
+<div class="modal fade" id="imageZoomModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" style="z-index: 1000;"></button>
+                <img id="zoomedImage" class="img-fluid w-100" alt="Imagen ampliada">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Cambio de imagen principal
+function changeMainImage(thumbnail) {
+    const mainImage = document.querySelector('.main-product-image img');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    
+    // Actualizar imagen principal
+    mainImage.src = thumbnail.dataset.detail;
+    
+    // Actualizar clases activas
+    thumbnails.forEach(thumb => thumb.classList.remove('active'));
+    thumbnail.classList.add('active');
+}
+
+// Zoom de imagen
+document.addEventListener('DOMContentLoaded', function() {
+    const mainImageContainer = document.querySelector('.main-image-container');
+    const zoomModal = new bootstrap.Modal(document.getElementById('imageZoomModal'));
+    const zoomedImage = document.getElementById('zoomedImage');
+    
+    mainImageContainer.addEventListener('click', function() {
+        const activeThumb = document.querySelector('.thumbnail.active');
+        if (activeThumb) {
+            zoomedImage.src = activeThumb.dataset.zoom;
+            zoomModal.show();
+        }
+    });
+});
+</script>
+
+<style>
+.thumbnail {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.thumbnail:hover,
+.thumbnail.active {
+    opacity: 1;
+    border-color: var(--primary-color);
+}
+
+.main-image-container {
+    position: relative;
+    cursor: zoom-in;
+}
+
+.zoom-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.main-image-container:hover .zoom-overlay {
+    opacity: 1;
+}
+
+.spec-item {
+    padding: 15px;
+    background: var(--light-color);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+}
+</style>
+{% endblock %}

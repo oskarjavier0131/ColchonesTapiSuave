@@ -1,0 +1,136 @@
+/* Estilos adicionales personalizados */
+.product-gallery .main-image img {
+    max-height: 500px;
+    object-fit: cover;
+}
+
+.video-background {
+    position: relative;
+    overflow: hidden;
+}
+
+.video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+/* Animaciones personalizadas */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-left {
+    animation: slideInLeft 0.6s ease;
+}
+
+.animate-slide-right {
+    animation: slideInRight 0.6s ease;
+}
+
+/* Estilos para ícono de teléfono */
+.fas.fa-phone {
+    color: black !important;
+    animation: phoneVibration 1.5s infinite;
+}
+
+/* Animación de vibración para teléfono */
+@keyframes phoneVibration {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-2px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(2px);
+    }
+}
+
+/* Estilos para íconos de redes sociales más grandes y visibles */
+.social-links {
+    margin-top: 20px;
+}
+
+.social-links a {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    margin-right: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.social-links a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.social-links a i {
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+/* Colores específicos para cada red social */
+.social-links a:nth-child(1):hover {
+    background-color: #1877f2;
+}
+
+.social-links a:nth-child(1):hover i {
+    color: white;
+}
+
+.social-links a:nth-child(2):hover {
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+}
+
+.social-links a:nth-child(2):hover i {
+    color: white;
+}
+
+.social-links a:nth-child(3):hover {
+    background-color: #25d366;
+}
+
+.social-links a:nth-child(3):hover i {
+    color: white;
+}
+
+/* Íconos de Facebook, Instagram y WhatsApp */
+.fab.fa-facebook-f {
+    color: #1877f2;
+}
+
+.fab.fa-instagram {
+    color: #e4405f;
+}
+
+.fab.fa-whatsapp {
+    color: #25d366;
+}

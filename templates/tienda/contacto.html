@@ -1,0 +1,381 @@
+{% extends 'base.html' %}
+
+{% block title %}Contacto - ColchonesTapiSuave{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="padding: 80px 0;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="hero-title">Contáctanos</h1>
+                    <p class="hero-subtitle">Estamos aquí para ayudarte a encontrar el colchón perfecto para tu descanso</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <i class="fas fa-comments" style="font-size: 12rem; opacity: 0.3; color: white;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Información de Contacto -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Formulario de Contacto -->
+            <div class="col-lg-8">
+                <div class="contact-form bg-white rounded-4 p-4 shadow-sm">
+                    <h3 class="fw-bold mb-4">Envíanos un Mensaje</h3>
+                    
+                    <form id="contactForm" action="#" method="post">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre Completo *</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Correo Electrónico *</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefono" name="telefono">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ciudad" class="form-label">Ciudad</label>
+                                <input type="text" class="form-control" id="ciudad" name="ciudad">
+                            </div>
+                            <div class="col-12">
+                                <label for="asunto" class="form-label">Asunto *</label>
+                                <select class="form-select" id="asunto" name="asunto" required>
+                                    <option value="">Selecciona un asunto</option>
+                                    <option value="consulta_producto">Consulta sobre Productos</option>
+                                    <option value="cotizacion">Solicitar Cotización</option>
+                                    <option value="garantia">Temas de Garantía</option>
+                                    <option value="envio">Información de Envío</option>
+                                    <option value="soporte">Soporte Técnico</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label for="mensaje" class="form-label">Mensaje *</label>
+                                <textarea class="form-control" id="mensaje" name="mensaje" rows="5" 
+                                          placeholder="Cuéntanos cómo podemos ayudarte..." required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="acepto_terminos" name="acepto_terminos" required>
+                                    <label class="form-check-label" for="acepto_terminos">
+                                        Acepto el tratamiento de mis datos personales según la 
+                                        <a href="#" class="text-primary">política de privacidad</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <i class="fas fa-paper-plane me-2"></i> Enviar Mensaje
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Información de Contacto -->
+            <div class="col-lg-4">
+                <div class="contact-info">
+                    <!-- WhatsApp -->
+                    <div class="contact-card bg-success bg-opacity-10 rounded-4 p-4 mb-4 border border-success border-opacity-25">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-container bg-success bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 60px; height: 60px;">
+                                <i class="fab fa-whatsapp text-success" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">WhatsApp</h5>
+                                <p class="text-muted mb-0">Respuesta inmediata</p>
+                            </div>
+                        </div>
+                        <p class="mb-3">+57 311 890 8980</p>
+                        <a href="https://wa.me/573118908980?text=Hola%2C%20necesito%20información%20sobre%20sus%20colchones" 
+                           class="btn btn-success w-100" target="_blank">
+                            <i class="fab fa-whatsapp me-2"></i> Chatear Ahora
+                        </a>
+                    </div>
+                    
+                    <!-- Teléfono -->
+                    <div class="contact-card bg-primary bg-opacity-10 rounded-4 p-4 mb-4 border border-primary border-opacity-25">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-container bg-primary bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 60px; height: 60px;">
+                                <i class="fas fa-phone text-primary" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">Teléfono</h5>
+                                <p class="text-muted mb-0">Lun - Sáb: 8AM - 6PM</p>
+                            </div>
+                        </div>
+                        <p class="mb-3">+57 311 890 8980</p>
+                        <a href="tel:+573118908980" class="btn btn-primary w-100">
+                            <i class="fas fa-phone me-2"></i> Llamar Ahora
+                        </a>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="contact-card bg-info bg-opacity-10 rounded-4 p-4 mb-4 border border-info border-opacity-25">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-container bg-info bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 60px; height: 60px;">
+                                <i class="fas fa-envelope text-info" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">Correo Electrónico</h5>
+                                <p class="text-muted mb-0">Respuesta en 24 horas</p>
+                            </div>
+                        </div>
+                        <p class="mb-3">info@colchonestapisuave.com.co</p>
+                        <a href="mailto:info@colchonestapisuave.com.co" class="btn btn-info w-100">
+                            <i class="fas fa-envelope me-2"></i> Enviar Email
+                        </a>
+                    </div>
+                    
+                    <!-- Horarios -->
+                    <div class="contact-card bg-warning bg-opacity-10 rounded-4 p-4 border border-warning border-opacity-25">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-container bg-warning bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 60px; height: 60px;">
+                                <i class="fas fa-clock text-warning" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">Horarios de Atención</h5>
+                            </div>
+                        </div>
+                        <div class="schedule-info">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Lunes - Viernes:</span>
+                                <span class="fw-bold">8:00 AM - 6:00 PM</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Sábados:</span>
+                                <span class="fw-bold">8:00 AM - 4:00 PM</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Domingos:</span>
+                                <span class="fw-bold text-muted">Cerrado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Preguntas Frecuentes -->
+<section class="py-5" style="background-color: var(--light-color);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Preguntas Frecuentes</h2>
+            <p class="text-muted">Resolvemos las dudas más comunes de nuestros clientes</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item border-0 mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                ¿Cuál es el tiempo de entrega?
+                            </button>
+                        </h3>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Realizamos entregas en toda Colombia en un plazo de 3 a 8 días hábiles, dependiendo de la ciudad. 
+                                Para Bogotá, Medellín, Cali y Barranquilla el tiempo es de 3-5 días hábiles.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                ¿Ofrecen garantía en sus productos?
+                            </button>
+                        </h3>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sí, todos nuestros colchones vienen con garantía extendida que va desde 1 hasta 10 años, 
+                                dependiendo del modelo. La garantía cubre defectos de fabricación y pérdida prematura de firmeza.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                ¿Puedo probar el colchón antes de comprarlo?
+                            </button>
+                        </h3>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Ofrecemos 30 noches de prueba en casa. Si no estás completamente satisfecho con tu colchón, 
+                                puedes devolverlo sin costo adicional dentro de este período.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                ¿Cuáles son las formas de pago disponibles?
+                            </button>
+                        </h3>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Aceptamos transferencias bancarias, consignaciones, PSE, y pagos contra entrega. 
+                                También manejamos planes de financiamiento para facilitar tu compra.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                ¿Hacen envíos a nivel nacional?
+                            </button>
+                        </h3>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sí, enviamos a todo el territorio nacional sin costo adicional. 
+                                Trabajamos con empresas de transporte confiables para garantizar la entrega segura de tu colchón.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mapa y Ubicación -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Ubicación</h2>
+            <p class="text-muted">Visítanos en nuestras instalaciones</p>
+        </div>
+        
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="location-info">
+                    <div class="location-card bg-light rounded-4 p-4">
+                        <h4 class="fw-bold mb-3">
+                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                            Showroom Principal
+                        </h4>
+                        <p class="mb-2">
+                            <strong>Dirección:</strong><br>
+                            Calle 123 #45-67, Bogotá D.C., Colombia
+                        </p>
+                        <p class="mb-2">
+                            <strong>Teléfono:</strong> +57 311 890 8980
+                        </p>
+                        <p class="mb-4">
+                            <strong>Email:</strong> info@colchonestapisuave.com.co
+                        </p>
+                        
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="https://maps.google.com" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-map me-2"></i> Ver en Google Maps
+                            </a>
+                            <a href="https://wa.me/573118908980?text=Quiero%20visitar%20su%20showroom" 
+                               target="_blank" class="btn btn-outline-success">
+                                <i class="fab fa-whatsapp me-2"></i> Agendar Visita
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="map-container bg-light rounded-4 d-flex align-items-center justify-content-center" 
+                     style="height: 400px;">
+                    <div class="text-center">
+                        <i class="fas fa-map-marked-alt text-primary" style="font-size: 4rem; opacity: 0.5;"></i>
+                        <p class="text-muted mt-3">Mapa interactivo próximamente</p>
+                        <small class="text-muted">Mientras tanto, usa el enlace "Ver en Google Maps"</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Manejar envío del formulario
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Simular envío exitoso
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        // Cambiar botón a estado de carga
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Enviando...';
+        submitBtn.disabled = true;
+        
+        // Simular proceso de envío
+        setTimeout(() => {
+            // Mostrar mensaje de éxito
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success alert-dismissible fade show';
+            alert.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>
+                <strong>¡Mensaje enviado exitosamente!</strong> Te contactaremos pronto.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            // Insertar alerta antes del formulario
+            this.parentNode.insertBefore(alert, this);
+            
+            // Limpiar formulario
+            this.reset();
+            
+            // Restaurar botón
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            
+            // Scroll hacia la alerta
+            alert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+        }, 2000);
+    });
+    
+    // Validación en tiempo real
+    const inputs = document.querySelectorAll('#contactForm input, #contactForm select, #contactForm textarea');
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.hasAttribute('required') && !this.value.trim()) {
+                this.classList.add('is-invalid');
+            } else {
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.classList.contains('is-invalid') && this.value.trim()) {
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+            }
+        });
+    });
+</script>
+{% endblock %}
