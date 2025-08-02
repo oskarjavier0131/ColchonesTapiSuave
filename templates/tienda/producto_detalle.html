@@ -22,7 +22,7 @@
                 <!-- Thumbnails -->
                 <div class="thumbnail-gallery">
                     <div class="row g-2">
-                        {% with images=producto|product_gallery %}
+                        {% product_gallery producto as images %}
                         {% for image in images %}
                         <div class="col-3">
                             <div class="thumbnail-container">
@@ -38,7 +38,6 @@
                             </div>
                         </div>
                         {% endfor %}
-                        {% endwith %}
                     </div>
                 </div>
             </div>
@@ -62,25 +61,25 @@
                 <!-- Precio -->
                 <div class="price-section mb-4">
                     {% if producto.precio_descuento %}
-                    <div class="price-comparison">
-                        <span class="original-price text-muted text-decoration-line-through me-3">
-                            ${{ producto.precio|floatformat:0 }}
-                        </span>
-                        <span class="current-price h2 text-primary fw-bold">
-                            ${{ producto.get_precio_final|floatformat:0 }}
-                        </span>
-                        <span class="discount-badge badge bg-success ms-2">
-                            {{ producto.get_descuento_porcentaje }}% OFF
+                    <div class="price-original">
+                        <span class="text-muted text-decoration-line-through">{{ producto.precio|formato_peso_colombiano }}</span>
+                    </div>
+                    <div class="price-current">
+                        <span class="h3 text-primary fw-bold">{{ producto.get_precio_final|formato_peso_colombiano }}</span>
+                        <span class="badge bg-danger ms-2">
+                            -{{ producto.get_descuento_porcentaje }}%
                         </span>
                     </div>
-                    <small class="text-success">
-                        <i class="fas fa-tags me-1"></i>
-                        Ahorras ${{ producto.precio|sub:producto.precio_descuento|floatformat:0 }}
-                    </small>
+                    <div class="savings mt-2">
+                        <small class="text-success">
+                            <i class="fas fa-tag me-1"></i>
+                            Ahorras {{ producto.get_ahorro|formato_peso_colombiano }}
+                        </small>
+                    </div>
                     {% else %}
-                    <span class="current-price h2 text-primary fw-bold">
-                        ${{ producto.precio|floatformat:0 }}
-                    </span>
+                    <div class="price-current">
+                        <span class="h3 text-primary fw-bold">{{ producto.precio|formato_peso_colombiano }}</span>
+                    </div>
                     {% endif %}
                 </div>
                 

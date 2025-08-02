@@ -47,11 +47,11 @@
                                     </small>
                                 </div>
                                 
-                                <div class="product-price mb-3">
+                                <div class="product-price">
                                     {% if producto.precio_descuento %}
-                                    <span class="product-price-old">${{ producto.precio|floatformat:0 }}</span>
+                                    <span class="product-price-old">{{ producto.precio|formato_peso_colombiano }}</span>
                                     {% endif %}
-                                    ${{ producto.get_precio_final|floatformat:0 }}
+                                    {{ producto.get_precio_final|formato_peso_colombiano }}
                                 </div>
                                 
                                 <div class="product-actions">

@@ -12,15 +12,15 @@ def responsive_product_image(producto, size='detail', alt='', css_class='', lazy
     Uso: {% responsive_product_image producto size='thumbnail' alt='Colchón' css_class='product-img' %}
     """
     if not producto.imagen_principal:
-        # Placeholder si no hay imagen
-        placeholder_webp = f"{settings.STATIC_URL}images/placeholders/product-placeholder.webp"
-        placeholder_jpg = f"{settings.STATIC_URL}images/placeholders/product-placeholder.jpg"
-        
+        # Mostrar un ícono en lugar de imagen rota
         return mark_safe(f'''
-            <picture class="{css_class}">
-                <source srcset="{placeholder_webp}" type="image/webp">
-                <img src="{placeholder_jpg}" alt="{alt}" class="img-fluid {css_class}" loading="lazy">
-            </picture>
+            <div class="placeholder-image d-flex align-items-center justify-content-center {css_class}" 
+                 style="height: 200px; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px;">
+                <div class="text-center text-muted">
+                    <i class="fas fa-bed" style="font-size: 3rem; color: #6c757d;"></i>
+                    <p class="mt-2 mb-0 small">Sin imagen</p>
+                </div>
+            </div>
         ''')
     
     # Obtener URLs según el tamaño solicitado
@@ -103,3 +103,18 @@ def webp_supported(request):
     """
     accept_header = request.META.get('HTTP_ACCEPT', '')
     return 'image/webp' in accept_header
+
+@register.filter
+def formato_peso_colombiano(value):
+    """
+    Formatea un número como peso colombiano con separadores de miles
+    Ejemplo: 1500000 -> $1.500.000
+    """
+    try:
+        # Convertir a entero para eliminar decimales
+        numero = int(float(value))
+        # Formatear con separadores de miles usando puntos
+        formatted = f"{numero:,}".replace(',', '.')
+        return f"${formatted}"
+    except (ValueError, TypeError):
+        return f"${value}"

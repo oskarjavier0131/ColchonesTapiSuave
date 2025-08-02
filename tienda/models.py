@@ -103,6 +103,11 @@ class Producto(models.Model):
             return round(((self.precio - self.precio_descuento) / self.precio) * 100)
         return 0
     
+    def get_ahorro(self):
+        if self.precio_descuento:
+            return self.precio - self.precio_descuento
+        return 0
+    
     def __str__(self):
         return f"{self.nombre} - {self.tamano}"
 
