@@ -2,7 +2,7 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn colchones_project.wsgi:application --bind 0.0.0.0:$PORT"
+startCommand = "python manage.py migrate && python manage.py setup_production && python manage.py collectstatic --noinput && gunicorn colchones_project.wsgi:application --bind 0.0.0.0:$PORT"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 
@@ -10,5 +10,5 @@ restartPolicyMaxRetries = 10
 DJANGO_SETTINGS_MODULE = "colchones_project.settings"
 PYTHONUNBUFFERED = "1"
 DEBUG = "False"
-SECRET_KEY = "tu-clave-secreta-super-segura-para-produccion"
+SECRET_KEY = "django-insecure-railway-2024-tapisuave-production-key"
 PORT = "8000"

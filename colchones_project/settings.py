@@ -4,12 +4,13 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'tu-clave-secreta-aqui')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-cambiar-en-produccion')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']  # Railway maneja esto automáticamente
+# Permitir todos los hosts (Railway maneja esto automáticamente)
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,7 +56,9 @@ TEMPLATES = [
     },
 ]
 
-# Database
+WSGI_APPLICATION = 'colchones_project.wsgi.application'
+
+# Database - Railway PostgreSQL en producción, SQLite en desarrollo
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -67,7 +70,7 @@ DATABASES = {
     }
 }
 
-# Fallback to SQLite for local development
+# Fallback a SQLite para desarrollo local
 if not os.environ.get('PGDATABASE'):
     DATABASES = {
         'default': {
@@ -76,21 +79,44 @@ if not os.environ.get('PGDATABASE'):
         }
     }
 
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+# Internationalization
+LANGUAGE_CODE = 'es-co'
+TIME_ZONE = 'America/Bogota'
+USE_I18N = True
+USE_TZ = True
+
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise configuration
+# WhiteNoise configuration for serving static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Crispy Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# Configuración de CKEditor
+# CKEditor
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_CONFIGS = {
     'default': {
@@ -110,4 +136,7 @@ else:
     EMAIL_USE_TLS = True
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-    DEFAULT_FROM_EMAIL = 'ColchonesTapiSuave <noreply@colchonestapisuave.com.co>'
+    DEFAULT_FROM_EMAIL = 'ColchonesTapiSuave <noreply@tudominio.com>'
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
