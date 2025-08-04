@@ -40,12 +40,13 @@
                 <div class="product-card h-100">
                     <div class="product-image">
                         {% if producto.imagen_principal %}
-                            <img src="{{ producto.imagen_principal.url }}" alt="{{ producto.nombre }}" loading="lazy">
+                            {% responsive_product_image producto size='card' alt=producto.nombre css_class='product-img' %}
                         {% else %}
                             <div class="placeholder-image">
                                 <i class="fas fa-bed"></i>
                             </div>
                         {% endif %}
+                        <img src="{{ producto.imagen_principal.url }}" alt="{{ producto.nombre }}" loading="lazy">
                         {% if producto.get_descuento_porcentaje %}
                         <div class="product-badge">-{{ producto.get_descuento_porcentaje }}%</div>
                         {% endif %}
