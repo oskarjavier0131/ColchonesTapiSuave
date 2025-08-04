@@ -100,7 +100,22 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'es-co'
 TIME_ZONE = 'America/Bogota'
 USE_I18N = True
+# Configuraciones de seguridad para Railway
+CSRF_TRUSTED_ORIGINS = [
+    'https://fantastic-solace-production.up.railway.app',
+    'https://*.railway.app',
+]
+
+# Configuración adicional para Railway
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_TZ = True
+
+# En producción, desactivar DEBUG
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
