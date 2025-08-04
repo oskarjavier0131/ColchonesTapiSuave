@@ -46,7 +46,7 @@
                                 <i class="fas fa-bed"></i>
                             </div>
                         {% endif %}
-                        <img src="{{ producto.imagen_principal.url }}" alt="{{ producto.nombre }}" loading="lazy">
+                        <!-- ❌ ELIMINAR ESTA LÍNEA: <img src="{{ producto.imagen_principal.url }}" alt="{{ producto.nombre }}" loading="lazy"> -->
                         {% if producto.get_descuento_porcentaje %}
                         <div class="product-badge">-{{ producto.get_descuento_porcentaje }}%</div>
                         {% endif %}
