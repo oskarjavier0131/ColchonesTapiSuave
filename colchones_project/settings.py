@@ -7,9 +7,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-cambiar-en-produccion')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# Cambiar temporalmente esta línea:
-# DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
-DEBUG = False  # Temporal para debugging
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+# DEBUG = True  # Temporal para debugging - COMENTAR ESTA LÍNEA
 
 # Permitir todos los hosts (Railway maneja esto automáticamente)
 ALLOWED_HOSTS = ['*']
