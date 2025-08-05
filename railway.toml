@@ -2,35 +2,7 @@
 builder = "NIXPACKS"
 
 [deploy]
-startCommand = "python manage.py createsuperuser --noinput --username admin --email admin@example.com && python manage.py migrate_to_cloudinary && python manage.py collectstatic --noinput && gunicorn colchones_project.wsgi:application"
-restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 10
-
-[env]
-DJANGO_SETTINGS_MODULE = "colchones_project.settings"
-PYTHONUNBUFFERED = "1"
-DEBUG = "False"
-SECRET_KEY = "django-insecure-railway-2024-tapisuave-production-key"
-PORT = "8000"
-
-
-## 🚨 Problema: El Superusuario No Se Creó Correctamente
-
-### 🎯 **Análisis del Error**
-
-La imagen muestra que el admin de Django está pidiendo credenciales, pero el mensaje indica que **el superusuario no existe** o **las credenciales son incorrectas**.
-
-### 🔧 **Solución: Crear el Superusuario Correctamente**
-
-#### **Opción 1: Modificar railway.toml (Recomendado)**
-
-Veo que tienes el <mcfile name="railway.toml" path="c:\Users\USER\Desktop\tapi_suave\railway.toml"></mcfile> abierto. Vamos a modificarlo para crear el superusuario automáticamente:
-```toml
-[build]
-builder = "NIXPACKS"
-
-[deploy]
-startCommand = "python manage.py createsuperuser --noinput --username admin --email admin@example.com && python manage.py migrate_to_cloudinary && python manage.py collectstatic --noinput && gunicorn colchones_project.wsgi:application"
+startCommand = "python manage.py shell -c \"from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'MiPassword123!')\" || echo 'User already exists' && python manage.py migrate_to_cloudinary && python manage.py collectstatic --noinput && gunicorn colchones_project.wsgi:application"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 
