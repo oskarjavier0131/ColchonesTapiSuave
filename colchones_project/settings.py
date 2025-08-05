@@ -13,6 +13,19 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 # Permitir todos los hosts (Railway maneja esto automáticamente)
 ALLOWED_HOSTS = ['*']
 
+# Cloudinary configuration
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# Configuración de Cloudinary
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME', 'tu-cloud-name-aqui'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY', 'tu-api-key-aqui'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET', 'tu-api-secret-aqui')
+)
+
+# Agregar a INSTALLED_APPS
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,12 +33,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',  # ← AGREGAR ESTO
+    'cloudinary',          # ← AGREGAR ESTO
+    'tienda',
     'crispy_forms',
-    'crispy_bootstrap4',
     'ckeditor',
     'ckeditor_uploader',
-    'tienda',
 ]
+
+# Media files - Cloudinary en producción, local en desarrollo
+if DEBUG:
+    # Desarrollo: usar almacenamiento local
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
+else:
+    # Producción: usar Cloudinary
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    MEDIA_URL = '/media/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

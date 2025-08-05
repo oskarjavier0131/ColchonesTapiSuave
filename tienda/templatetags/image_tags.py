@@ -1,6 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from django.conf import settings
+from cloudinary import CloudinaryImage
 
 register = template.Library()
 
@@ -118,3 +119,20 @@ def formato_peso_colombiano(value):
         return f"${formatted}"
     except (ValueError, TypeError):
         return f"${value}"
+
+
+@register.simple_tag
+def cloudinary_image(image_field, transformation=None, **kwargs):
+    """Genera imagen optimizada con Cloudinary"""
+    if not image_field:
+        return ''
+    
+    if not settings.DEBUG and hasattr(image_field, 'public_id'):
+        # En producción con Cloudinary
+        img = CloudinaryImage(image_field.public_id)
+        if transformation:
+            return img.build_url(transformation=transformation)
+        return img.build_url()
+    else:
+        # En desarrollo o imagen local
+        return image_field.url if image_field else ''
