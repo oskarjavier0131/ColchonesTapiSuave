@@ -2,7 +2,7 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "python manage.py migrate && python manage.py setup_production && python manage.py collectstatic --noinput && gunicorn colchones_project.wsgi:application --bind 0.0.0.0:$PORT"
+startCommand = "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py migrate_to_cloudinary && gunicorn colchones_project.wsgi:application --bind 0.0.0.0:$PORT"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 

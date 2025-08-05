@@ -10,38 +10,48 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if settings.DEBUG:
             self.stdout.write(
-                self.style.ERROR('Este comando solo funciona en producción')
+                self.style.WARNING('Este comando funciona mejor en producción')
             )
-            return
-            
-        productos = Producto.objects.filter(imagen_principal__isnull=False)
         
-        for producto in productos:
+        productos = Producto.objects.filter(imagen_principal__isnull=False)
+        total = productos.count()
+        
+        self.stdout.write(f'Migrando {total} imágenes a Cloudinary...')
+        
+        for i, producto in enumerate(productos, 1):
             try:
-                # Subir imagen principal
                 if producto.imagen_principal:
-                    result = cloudinary.uploader.upload(
-                        producto.imagen_principal.path,
-                        folder="productos",
-                        public_id=f"producto_{producto.id}_principal"
-                    )
+                    public_id = f"productos/producto_{producto.id}_principal"
+                    
+                    # Subir a Cloudinary
+                    if hasattr(producto.imagen_principal, 'path') and os.path.exists(producto.imagen_principal.path):
+                        result = cloudinary.uploader.upload(
+                            producto.imagen_principal.path,
+                            public_id=public_id,
+                            folder="productos",
+                            resource_type="image"
+                        )
+                    else:
+                        result = cloudinary.uploader.upload(
+                            producto.imagen_principal.url,
+                            public_id=public_id,
+                            folder="productos",
+                            resource_type="image"
+                        )
+                    
                     self.stdout.write(
-                        self.style.SUCCESS(f'✅ {producto.nombre}: {result["url"]}')
+                        self.style.SUCCESS(
+                            f'✅ {i}/{total} - {producto.nombre}: {result["secure_url"]}'
+                        )
                     )
                     
-                # Subir imágenes adicionales
-                for i, imagen in enumerate(producto.imagenes_adicionales.all()):
-                    if imagen.imagen:
-                        result = cloudinary.uploader.upload(
-                            imagen.imagen.path,
-                            folder="productos",
-                            public_id=f"producto_{producto.id}_adicional_{i}"
-                        )
-                        self.stdout.write(
-                            self.style.SUCCESS(f'✅ Imagen adicional {i}: {result["url"]}')
-                        )
-                        
             except Exception as e:
                 self.stdout.write(
-                    self.style.ERROR(f'❌ Error con {producto.nombre}: {str(e)}')
+                    self.style.ERROR(
+                        f'❌ {i}/{total} - Error con {producto.nombre}: {str(e)}'
+                    )
                 )
+        
+        self.stdout.write(
+            self.style.SUCCESS('🎉 Migración completada!')
+        )
